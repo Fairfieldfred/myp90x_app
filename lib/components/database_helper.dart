@@ -10,7 +10,12 @@ class DatabaseHelper{
   static final _tableName = 'myTable';
 
   static final columnID = '_id';
-  static final columnName = 'name';
+  static final columnWorkoutName = 'workoutName';
+  static final columnExerciseName = 'exerciseName';
+  static final columnDoneOrNot = 'DoneOrNot';
+  static final columnRepCount = 'repCount';
+  static final columnWeight = 'weight';
+  static final columnDateTime = 'dateTime';
 
   //First create a singleton class - this is how
   DatabaseHelper._privateConstructor();

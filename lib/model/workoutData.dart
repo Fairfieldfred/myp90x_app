@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 
 class WorkoutData extends StatelessWidget {
@@ -14,9 +16,10 @@ class WorkoutData extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container();
   }
+
 }
 
-List workouts = [
+List <dynamic> workouts = [
   WorkoutData(workoutName: 'Chest and Back', imageName: 'Chest and Back', description: 'Pushing and pulling as simple as it gets.', exercises: chestAndBackExercises),
   WorkoutData(workoutName: 'Shoulders and Arms', imageName: 'Shoulders and Arms', description: "It's the glamour routine.", exercises: shouldersAndArmsExercises),
   WorkoutData(workoutName: 'Legs and Back', imageName: 'Legs and Back', description: 'People ask...How do you get legs like that?', exercises: legsAndBackExercises),

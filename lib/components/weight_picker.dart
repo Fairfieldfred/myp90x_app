@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:myp90x_app/model/exercise_brain.dart';
 import 'constants.dart';
+import 'package:provider/provider.dart';
 
 class WeightPicker extends StatefulWidget {
   @override
@@ -29,6 +31,7 @@ class _WeightPickerState extends State<WeightPicker> {
 
   @override
   Widget build(BuildContext context) {
+    final exerciseModel = context.watch<ExerciseModel>();
     return Container(
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15.0),
@@ -40,11 +43,12 @@ class _WeightPickerState extends State<WeightPicker> {
           offAxisFraction: 0.0, // -0.5 to 0.5,
           squeeze: 1.45, // ios default is 1.45
           // selectionOverlay: Text('$selected'),
-          backgroundColor: kActiveCardColor,
+          backgroundColor: Colors.black,
           onSelectedItemChanged: (int value) {
             setState(() {
               selected = weightToChoose[value];
               print(selected);
+              exerciseModel.setCurrentWeight(selected);
             });
           },
           itemExtent: 20.0,
