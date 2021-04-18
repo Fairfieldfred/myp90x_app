@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myp90x_app/components/picker_views.dart';
 import 'package:myp90x_app/components/rounded_button.dart';
+import 'package:myp90x_app/components/database_helper.dart';
 import 'package:myp90x_app/model/exercise_brain.dart';
 import 'package:myp90x_app/model/workoutData.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +34,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   @override
   Widget build(BuildContext context) {
     final exerciseModel = context.watch<ExerciseModel>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('My_P90X'),
@@ -45,7 +47,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           Text('The current rep Count is: ${exerciseModel.currentRep.toString()}'),
           Text('The current weight is: ${exerciseModel.currentWeight.toString()}'),
           Text('The current exercise Number is: ${exerciseNumber.toString()}'),
-          DefaultPickerView(),
+          DefaultPickerView(workoutData.workoutName, workoutData.exercises[exerciseNumber]),
           Row(
             children: [
               TextButton(
@@ -55,22 +57,38 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                   ),
                   child: Text('Back') ,
                   onPressed: () {
+
                     if (exerciseNumber >= 1) {
                       exerciseNumber --;
+                      exerciseModel.setExerciseNumber(exerciseNumber);
                     }
+
                     setState(() {
                       }
                      );
                   },),
-              TextButton(
+              TextButton(onPressed: () async {
+                int i = await DatabaseHelper.instance.insert({ //the insert method will always return the internal id of the record(an Integer)
+                  DatabaseHelper.columnWorkoutName: workoutData.workoutName,
+                  DatabaseHelper.columnExerciseName: workoutData.exercises[exerciseNumber],
+                  DatabaseHelper.columnDateTime: DateTime.now().millisecondsSinceEpoch,
+                  DatabaseHelper.columnDoneOrNot: '',
+                  DatabaseHelper.columnRepCount: exerciseModel.currentRep,
+                  DatabaseHelper.columnWeight: exerciseModel.currentWeight,//regardless of the data entered.
+                });
+                print('The inserted id is $i');
+                List<Map<String,dynamic>> queryRows = await DatabaseHelper.instance.queryAll();
+                print(queryRows);
+                List<Map<String,dynamic>> lastRep = await DatabaseHelper.instance.queryLastRep(workoutData.workoutName,workoutData.exercises[exerciseNumber]);
+                print(lastRep[0]['repCount']);
+                //TODO Need to set last rep count in exerciseModel
+              },
+                child: Text('Save'),
                 style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.orangeAccent),
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.white)
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.orangeAccent),
+                  foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                 ),
-                child: Text('Save') ,
-                onPressed: () {
-                  // TODO : Need to implement database helper save
-                  }),
+              ),
               TextButton(
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.orangeAccent),
@@ -78,13 +96,16 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                 ),
                 child: Text('Next') ,
                 onPressed: () {
-                  if (exerciseNumber >= 1) {
-                    exerciseNumber ++;
-                  }
+
                   setState(() {
+                    if (exerciseNumber < workoutData.exercises.length - 1) {
+                      exerciseNumber ++;
+                      exerciseModel.setExerciseNumber(exerciseNumber);
+                    }
+                    }
+                    );
                   }
-                  );
-                },),
+                ),
 
             ],
           ),

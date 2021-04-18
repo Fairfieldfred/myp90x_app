@@ -16,7 +16,14 @@ class ExerciseBrain {
 
 class ExerciseModel extends ChangeNotifier {
 
-  ExerciseModel(this._currentRep);
+  ExerciseModel();
+
+  String _workoutName = '';
+  String get workoutName => _workoutName;
+
+  String _exerciseName = '';
+  String get exerciseName => _exerciseName;
+
 
   int _exerciseNumber = 0;
   int get exerciseNumber => _exerciseNumber;
@@ -27,8 +34,8 @@ class ExerciseModel extends ChangeNotifier {
   int _currentWeight = 0;
   int get currentWeight => _currentWeight;
 
-  void increment() {
-    _exerciseNumber++;
+  void setExerciseNumber(int) {
+    _exerciseNumber = int;
     notifyListeners();
   }
 
@@ -40,5 +47,18 @@ class ExerciseModel extends ChangeNotifier {
   void setCurrentWeight(int) {
     _currentWeight = int;
     notifyListeners();
+  }
+  void setCurrentWorkoutName(string) {
+    _workoutName = string;
+    notifyListeners();
+  }
+  void setCurrentExerciseName(string) {
+    _exerciseName = string;
+    notifyListeners();
+  }
+
+  Future<int> getLastRep() async {
+    List<Map<String,dynamic>> lastRep = await DatabaseHelper.instance.queryLastRep(workoutName, _exerciseName);
+    return lastRep[0]['repCount'];
   }
 }

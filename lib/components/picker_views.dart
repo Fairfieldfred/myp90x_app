@@ -10,7 +10,15 @@ import 'package:provider/provider.dart';
 
 class DefaultPickerView extends StatelessWidget {
 
-  RepPicker rPicker = RepPicker();
+  DefaultPickerView(this.workoutName, this.exerciseName);
+
+  String workoutName;
+  String exerciseName;
+
+  // var lastRepCount = Future <int> getLastRep() async {
+  // List<Map<String,dynamic>> lastRep = await DatabaseHelper.instance.queryLastRep(workoutName,exerciseName);
+  // return lastRep[0]['repcount'] as int;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +29,7 @@ class DefaultPickerView extends StatelessWidget {
           SizedBox(
             height: 200.0,
             width: 100.0,
-            child: rPicker,
+            child: RepPicker(),
           ),
           Spacer(),
           SizedBox(

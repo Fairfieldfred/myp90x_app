@@ -12,6 +12,7 @@ class WeightPicker extends StatefulWidget {
 class _WeightPickerState extends State<WeightPicker> {
 
   int selected = 0;
+  int lastWeight = 0;
   var weightToChoose = [5,8,10,12,15,20,25,30,35,40,45,50];
 
   late FixedExtentScrollController _scrollController;
