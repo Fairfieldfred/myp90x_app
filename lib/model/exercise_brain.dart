@@ -2,21 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:myp90x_app/components/database_helper.dart';
 import 'package:myp90x_app/model/workoutData.dart';
 
-class ExerciseBrain {
-
-  ExerciseBrain({required this.workoutName});
-
-  final String workoutName;
-
-
-  // int getLastRep() {
-  //   // return databaseHelper
-  // }
-}
 
 class ExerciseModel extends ChangeNotifier {
 
   ExerciseModel();
+
+  FixedExtentScrollController _repPickerScrollController = FixedExtentScrollController();
+  FixedExtentScrollController get repPickerScrollController => _repPickerScrollController;
 
   String _workoutName = '';
   String get workoutName => _workoutName;
@@ -31,6 +23,12 @@ class ExerciseModel extends ChangeNotifier {
   int _currentRep = 0;
   int get currentRep => _currentRep;
 
+  int _lastRep = 0;
+  int get lastRep => _lastRep;
+
+  int _nextLastRep = 0;
+  int get nextLastRep => _nextLastRep;
+
   int _currentWeight = 0;
   int get currentWeight => _currentWeight;
 
@@ -41,6 +39,14 @@ class ExerciseModel extends ChangeNotifier {
 
   void setCurrentRep(int) {
     _currentRep = int;
+    notifyListeners();
+  }
+  void setLastRep(int) {
+    _lastRep = int;
+    notifyListeners();
+  }
+  void setNextLastRep(int) {
+    _nextLastRep = int;
     notifyListeners();
   }
 
@@ -56,6 +62,10 @@ class ExerciseModel extends ChangeNotifier {
     _exerciseName = string;
     notifyListeners();
   }
+  // void setRepPickerScrollController(int) {
+  //   _repPickerScrollController = FixedExtentScrollController(initialItem: int);
+  //   notifyListeners();
+  // }
 
   Future<int> getLastRep() async {
     List<Map<String,dynamic>> lastRep = await DatabaseHelper.instance.queryLastRep(workoutName, _exerciseName);

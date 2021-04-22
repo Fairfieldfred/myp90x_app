@@ -5,74 +5,74 @@ import 'package:myp90x_app/model/exercise_brain.dart';
 import 'package:myp90x_app/components/database_helper.dart';
 
 class RepPicker extends StatefulWidget {
+
+  RepPicker(this.lastRep);
+
+  int lastRep;
+
   @override
-  _RepPickerState createState() => _RepPickerState();
+  _RepPickerState createState() => _RepPickerState(lastRep);
 }
 
 class _RepPickerState extends State<RepPicker> {
 
+  _RepPickerState(this.lastRep);
+
+  int lastRep;
   int selected = 0;
-
-  var repToChoose = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
-
-  FixedExtentScrollController pickerScrollController = FixedExtentScrollController(initialItem:0);
-
-
-  @override
-  void initState() {
-    //TODO: Need to getlastRepCount() and assign it to initial item.
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    pickerScrollController.dispose();
-    super.dispose();
-  }
+  var repToChoose = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
 
   @override
   Widget build(BuildContext context) {
 
     final exerciseModel = context.watch<ExerciseModel>();
 
-    pickerScrollController = FixedExtentScrollController(initialItem: 4);
+        FixedExtentScrollController pickerScrollController =  FixedExtentScrollController(initialItem: exerciseModel.nextLastRep);
 
-
-
-    return Container(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15.0),
-        child: CupertinoPicker(
-          looping: true,
-          scrollController: pickerScrollController,
-          magnification: 1.0,
-          diameterRatio: 0.7, // 1.1 is ios default
-          offAxisFraction: 0.0, // -0.5 to 0.5,
-          squeeze: 1.45, // ios default is 1.45
-          // selectionOverlay: Text('$selected'),
-          backgroundColor: Colors.black,
-          onSelectedItemChanged: (int value) {
-            setState(() {
-              selected = value + 1;
-              print(selected);
-              exerciseModel.setCurrentRep(selected);
-            });
-          },
-          itemExtent: 20.0,
+        return Column(
           children: [
-            for (var rep in repToChoose)
-              Text('$rep', style: TextStyle(
-                  color: selected == rep ? Colors.white: Colors.blue),)
-          ],
-
-        ),
-      ),
-    );
+            Text('The repPicker should be set to  ${exerciseModel.nextLastRep}'),
+            Container(
+              child: Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: Consumer<ExerciseModel>(
+                      builder: (context, exerciseModel, child) {
+                        return CupertinoPicker(
+                          looping: true,
+                          scrollController: pickerScrollController,
+                          magnification: 1.0,
+                          diameterRatio: 0.7,
+                          // 1.1 is ios default
+                          offAxisFraction: 0.0,
+                          // -0.5 to 0.5,
+                          squeeze: 1.45,
+                          // ios default is 1.45
+                          // selectionOverlay: Text('$selected'),
+                          backgroundColor: Colors.black,
+                          onSelectedItemChanged: (int value) {
+                          setState(() {
+                            selected = value;
+                            print(selected);
+                            exerciseModel.setCurrentRep(selected);
+                            });
+                          },
+                          itemExtent: 20.0,
+                          children: [
+                              for (var rep in repToChoose)
+                              Text('$rep', style: TextStyle(
+                              color: selected == rep ? Colors.white : Colors
+                                  .blue),)
+                          ],
+                        );
+                        }
+                ),
+              ),
+            ),
+                ),
+                ],
+        );
+      }
   }
 
- int getSelectedRep(){
-    return selected;
- }
 
-}

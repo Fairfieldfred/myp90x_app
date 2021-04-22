@@ -15,12 +15,13 @@ class _WeightPickerState extends State<WeightPicker> {
   int lastWeight = 0;
   var weightToChoose = [5,8,10,12,15,20,25,30,35,40,45,50];
 
-  late FixedExtentScrollController _scrollController;
+
+  FixedExtentScrollController _scrollController = FixedExtentScrollController();
 
   @override
   void initState() {
     //TODO: Need to getlastRepCount() and assign it to initial item.
-    _scrollController = FixedExtentScrollController(initialItem: 5);
+
     super.initState();
   }
 

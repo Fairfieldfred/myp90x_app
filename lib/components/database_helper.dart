@@ -48,15 +48,8 @@ class DatabaseHelper {
       $columnWeight INTEGER,
       $columnDateTime INTEGER NOT NULL)
       '''
-      // could use columnWorkoutName, columnExerciseName, columnWeight, ColumnReps, columnDoneOrNot, columnDateTime
-      // DateTime needs to be an INT - use flutter now = DateTime.fromMillisecondsSinceEpoch();
     );
   }
-
-  // {
-  //  "id":12,
-  //  "name": "Fred"
-  // }
 
   Future<int> insert(Map<String, dynamic> row) async {
     Database db = await instance.database;
@@ -75,9 +68,11 @@ class DatabaseHelper {
       where: '$columnExerciseName = ? AND $columnWorkoutName = ?',
       whereArgs:['$exerciseName', '$workoutName'],
       orderBy: '$columnDateTime DESC',
-       limit: 5
+       limit: 1
       );
-    return lastRepCount;
+     if (lastRepCount.length > 0) {
+       return lastRepCount;
+     } else return [{'repCount': 0}];
   }
   // Future<List<Map<String,dynamic>>>  queryRepCount(String workoutName, String exerciseName) async {
   //   Database db = await instance.database;
