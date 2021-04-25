@@ -6,26 +6,19 @@ import 'package:myp90x_app/components/database_helper.dart';
 
 class RepPicker extends StatefulWidget {
 
-  RepPicker(this.lastRep);
-
-  int lastRep;
-
   @override
-  _RepPickerState createState() => _RepPickerState(lastRep);
+  _RepPickerState createState() => _RepPickerState();
 }
 
 class _RepPickerState extends State<RepPicker> {
 
-  _RepPickerState(this.lastRep);
-
-  int lastRep;
   int selected = 0;
   var repToChoose = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
 
   @override
   Widget build(BuildContext context) {
 
-    final exerciseModel = context.watch<ExerciseModel>();
+        final exerciseModel = context.watch<ExerciseModel>();
 
         FixedExtentScrollController pickerScrollController =  FixedExtentScrollController(initialItem: exerciseModel.nextLastRep);
 
@@ -53,7 +46,6 @@ class _RepPickerState extends State<RepPicker> {
                           onSelectedItemChanged: (int value) {
                           setState(() {
                             selected = value;
-                            print(selected);
                             exerciseModel.setCurrentRep(selected);
                             });
                           },

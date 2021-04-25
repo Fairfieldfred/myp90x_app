@@ -12,7 +12,7 @@ class DatabaseHelper {
   static final columnID = '_id';
   static final columnWorkoutName = 'workoutName';
   static final columnExerciseName = 'exerciseName';
-  static final columnDoneOrNot = 'DoneOrNot';
+  static final columnDoneOrNot = 'doneOrNot';
   static final columnRepCount = 'repCount';
   static final columnWeight = 'weight';
   static final columnDateTime = 'dateTime';
@@ -43,7 +43,7 @@ class DatabaseHelper {
       $columnID INTEGER PRIMARY KEY, 
       $columnWorkoutName TEXT NOT NULL,
       $columnExerciseName TEXT NOT NULL,
-      $columnDoneOrNot BOOL,
+      $columnDoneOrNot INTEGER,
       $columnRepCount INTEGER,
       $columnWeight INTEGER,
       $columnDateTime INTEGER NOT NULL)
@@ -61,7 +61,7 @@ class DatabaseHelper {
     return  db.query(_tableName);
   }
 
-   Future<List<Map<String, dynamic>>> queryLastRep(String workoutName, String exerciseName) async {
+  Future<List<Map<String, dynamic>>> queryLastRep(String workoutName, String exerciseName) async {
      Database db =  await instance.database;
      List<Map<String,dynamic>> lastRepCount =  await db.query(_tableName,
       columns: ['$columnRepCount'],
@@ -74,10 +74,38 @@ class DatabaseHelper {
        return lastRepCount;
      } else return [{'repCount': 0}];
   }
+
+  Future<List<Map<String, dynamic>>> queryLastWeight(String workoutName, String exerciseName) async {
+    Database db =  await instance.database;
+    List<Map<String,dynamic>> lastWeight =  await db.query(_tableName,
+        columns: ['$columnWeight'],
+        where: '$columnExerciseName = ? AND $columnWorkoutName = ?',
+        whereArgs:['$exerciseName', '$workoutName'],
+        orderBy: '$columnDateTime DESC',
+        limit: 1
+    );
+    if (lastWeight.length > 0) {
+      return lastWeight;
+    } else return [{'weight': 0}];
+  }
+
+  Future<List<Map<String, dynamic>>> queryDoneOrNot(String workoutName, String exerciseName) async {
+    Database db =  await instance.database;
+    List<Map<String,dynamic>> doneOrNot =  await db.query(_tableName,
+        columns: ['$columnDoneOrNot'],
+        where: '$columnExerciseName = ? AND $columnWorkoutName = ?',
+        whereArgs:['$exerciseName', '$workoutName'],
+        orderBy: '$columnDateTime DESC',
+        limit: 1
+    );
+    if (doneOrNot.length > 0) {
+      return doneOrNot;
+    } else return [{'doneOrNot': 0}];
+  }
   // Future<List<Map<String,dynamic>>>  queryRepCount(String workoutName, String exerciseName) async {
   //   Database db = await instance.database;
   //   List<Map<String,dynamic>> lastRep = await db.rawQuery(
-  //       "SELECT repCount FROM _tableName WHERE workoutName = ? AND excerciseName = ? ORDER BY dateTime DESC LIMIT 1",(workoutName, exerciseName));
+  //       "SELECT repCount FROM _tableName WHERE workoutName = ? AND exerciseName = ? ORDER BY dateTime DESC LIMIT 1",(workoutName, exerciseName));
   //   return lastRep;
   // }
 //could use where: 'workoutName = ?' and 'exerciseName =?', whereArgs: ['$workout.workoutName' and 'exerciseName = workoutName.exerciseName[exerciseNumber]']);

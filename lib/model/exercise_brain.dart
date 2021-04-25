@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:myp90x_app/components/database_helper.dart';
-import 'package:myp90x_app/model/workoutData.dart';
-
 
 class ExerciseModel extends ChangeNotifier {
 
@@ -16,59 +14,55 @@ class ExerciseModel extends ChangeNotifier {
   String _exerciseName = '';
   String get exerciseName => _exerciseName;
 
-
   int _exerciseNumber = 0;
   int get exerciseNumber => _exerciseNumber;
 
   int _currentRep = 0;
   int get currentRep => _currentRep;
 
-  int _lastRep = 0;
-  int get lastRep => _lastRep;
+  int _currentWeight = 0;
+  int get currentWeight => _currentWeight;
+
+  bool _doneOrNot = false;
+  bool get doneOrNot => _doneOrNot;
 
   int _nextLastRep = 0;
   int get nextLastRep => _nextLastRep;
 
-  int _currentWeight = 0;
-  int get currentWeight => _currentWeight;
+  int _nextLastWeight = 0;
+  int get nextLastWeight => _nextLastWeight;
 
-  void setExerciseNumber(int) {
-    _exerciseNumber = int;
-    notifyListeners();
-  }
 
-  void setCurrentRep(int) {
-    _currentRep = int;
-    notifyListeners();
+    void setExerciseNumber(int) {
+      _exerciseNumber = int;
+      notifyListeners();
+    }
+    void setNextDoneOrNot(bool) {
+      _doneOrNot = bool;
+      notifyListeners();
+    }
+    void setNextlastWeight(int) {
+      _nextLastWeight = int;
+      notifyListeners();
+    }
+    void setCurrentRep(int) {
+      _currentRep = int;
+      notifyListeners();
+    }
+    void setNextLastRep(int) {
+      _nextLastRep = int;
+      notifyListeners();
+    }
+    void setCurrentWeight(int) {
+      _currentWeight = int;
+      notifyListeners();
+    }
+    void setCurrentWorkoutName(string) {
+      _workoutName = string;
+      notifyListeners();
+    }
+    void setCurrentExerciseName(string) {
+      _exerciseName = string;
+      notifyListeners();
+    }
   }
-  void setLastRep(int) {
-    _lastRep = int;
-    notifyListeners();
-  }
-  void setNextLastRep(int) {
-    _nextLastRep = int;
-    notifyListeners();
-  }
-
-  void setCurrentWeight(int) {
-    _currentWeight = int;
-    notifyListeners();
-  }
-  void setCurrentWorkoutName(string) {
-    _workoutName = string;
-    notifyListeners();
-  }
-  void setCurrentExerciseName(string) {
-    _exerciseName = string;
-    notifyListeners();
-  }
-  // void setRepPickerScrollController(int) {
-  //   _repPickerScrollController = FixedExtentScrollController(initialItem: int);
-  //   notifyListeners();
-  // }
-
-  Future<int> getLastRep() async {
-    List<Map<String,dynamic>> lastRep = await DatabaseHelper.instance.queryLastRep(workoutName, _exerciseName);
-    return lastRep[0]['repCount'];
-  }
-}
