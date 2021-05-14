@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:myp90x_app/components/picker_views.dart';
 import 'package:myp90x_app/components/database_helper.dart';
 import 'package:myp90x_app/model/exercise_brain.dart';
@@ -25,12 +26,6 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   int currentRep = 0;
   int exerciseNumber = 0;
 
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   final PageController controller = PageController(initialPage: 0);
 
   Expanded pickNextView() {
@@ -50,28 +45,52 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     final exerciseModel = context.watch<ExerciseModel>();
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('My_P90X'),
+        title: Text(workoutData.workoutName,
+        maxLines: 2,
+        style: TextStyle(
+          fontSize: 23.0
+        ),),
+        backgroundColor: Colors.black,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(workoutData.workoutName),
-          Text(workoutData.exercises[exerciseModel.exerciseNumber]),
-          Text('The current rep Count is: ${exerciseModel.currentRep.toString()}'),
-          Text('The current weight is: ${exerciseModel.currentWeight.toString()}'),
-          Text('The current exercise Number is: ${exerciseNumber.toString()}'),
-          Text('The exerciseModel.nextLastRep value is ${exerciseModel.nextLastRep}'),
-          Text('The exerciseModel.nextLastWeight value is ${exerciseModel.nextLastWeight}'),
+          SizedBox(height: 15.0),
+          Card(
+            child: Container(
+              width: double.infinity,
+              child: Text(workoutData.exercises[exerciseModel.exerciseNumber],
+              textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 25.0
+                  ),),
+            ),
+          ),
+          Spacer(),
+          // Below is used for testing
+          // Text('The current rep Count is: ${exerciseModel.currentRep.toString()}'),
+          // Text('The current weight is: ${exerciseModel.currentWeight.toString()}'),
+          // Text('The current exercise Number is: ${exerciseNumber.toString()}'),
+          // Text('The exerciseModel.nextLastRep value is ${exerciseModel.nextLastRep}'),
+          // Text('The exerciseModel.nextLastWeight value is ${exerciseModel.nextLastWeight}'),
           pickNextView(),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.orangeAccent),
                     foregroundColor: MaterialStateProperty.all<Color>(Colors.white)
                   ),
-                  child: Text('Back') ,
+                  child: Row(
+                    children: [
+                      Icon(CupertinoIcons.arrow_left, size: 25.0, color: Colors.black,
+                      ),
+                      Text(' Back'),
+                    ],
+                  ) ,
                   onPressed: () async {
                     if (exerciseNumber >= 1) {
                       List<Map<String, dynamic>> nextLastRep = await DatabaseHelper.instance.queryLastRep(workoutData.workoutName, workoutData.exercises[exerciseNumber - 1]);
@@ -142,7 +161,13 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.orangeAccent),
                     foregroundColor: MaterialStateProperty.all<Color>(Colors.white)
                 ),
-                child: Text('Next') ,
+                child: Row(
+                  children: [
+                    Text('Next '),
+                    Icon(CupertinoIcons.arrow_right, size: 25.0, color: Colors.black,
+                    ),
+                  ],
+                ) ,
                 onPressed: () async {
                   if (exerciseNumber < workoutData.exercises.length - 1) {
                     List<Map<String, dynamic>> nextLastRep = await DatabaseHelper.instance.queryLastRep(workoutData.workoutName, workoutData.exercises[exerciseNumber + 1]);
