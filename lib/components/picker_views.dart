@@ -17,23 +17,31 @@ class _DefaultPickerViewState extends State<DefaultPickerView> {
   Widget build(BuildContext context) {
     final exerciseModel = context.watch<ExerciseModel>();
     return  Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text('The repPicker should be set to ${exerciseModel.nextLastRep}'),
         Row(
           children: [
             Spacer(),
-            SizedBox(
-              height: 200.0,
-              width: 100.0,
-              child: RepPicker(),
+            Column(
+              children: [
+                SizedBox(
+                  height: 200.0,
+                  width: 100.0,
+                  child: RepPicker(),
+                ),
+              ],
             ),
             Spacer(),
-            SizedBox(
-              height: 200.0,
-              width: 100.0,
-              child: WeightPicker(),
+            Column(
+              children: [
+                SizedBox(
+                  height: 200.0,
+                  width: 100.0,
+                  child: WeightPicker(),
+                ),
+              ],
             ),
-            Spacer()
+            Spacer(),
           ],
         ),
       ],
@@ -51,20 +59,18 @@ class _MaxRepPickerViewState extends State<MaxRepPickerView> {
   @override
   Widget build(BuildContext context) {
     final exerciseModel = context.watch<ExerciseModel>();
-    return  Column(
+    return  Row(
       children: [
-        Text('The last Max Rep Count was: ${exerciseModel.nextLastRep}'),
-        Row(
-          children: [
-            Spacer(),
-            SizedBox(
-              height: 200.0,
-              width: 100.0,
-              child: RepPicker(),
-            ),
-            Spacer(),
-          ],
+        Spacer(),
+        Text('The last Max \nRep Count: ${exerciseModel.nextLastRep}',
+        style: kPickerViewTextStyle),
+        Spacer(),
+        SizedBox(
+          height: 200.0,
+          width: 100.0,
+          child: RepPicker(),
         ),
+        Spacer(),
       ],
     );
   }
@@ -81,22 +87,25 @@ class _FixedRepPickerViewState extends State<FixedRepPickerView> {
   @override
   Widget build(BuildContext context) {
     final exerciseModel = context.watch<ExerciseModel>();
-    return  Column(
+    return  Row(
       children: [
-        Text('The reps to do should be set to ${pickCorrectCount(exerciseModel.exerciseName)}'),
-        Row(
+        Spacer(),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Spacer(),
-            Text(pickCorrectCount(exerciseModel.exerciseName)),
-            Spacer(),
-            SizedBox(
-              height: 200.0,
-              width: 100.0,
-              child: WeightPicker(),
-            ),
-            Spacer()
+            Text('Everybody\nDoes:\n',
+            style: kPickerViewTextStyle,),
+            Text(pickCorrectCount(exerciseModel.exerciseName),
+            style: kPickerViewTextStyle),
           ],
         ),
+        Spacer(),
+        SizedBox(
+          height: 200,
+          width: 100,
+          child: WeightPicker(),
+        ),
+        Spacer()
       ],
     );
   }
@@ -154,7 +163,7 @@ class _DoneOrNotPickerViewState extends State<DoneOrNotPickerView> {
           children: [
             Spacer(),
             Text('Did You Do it? ',
-            style: kResultTextStyle,),
+            style: kDoneOrNotViewTextStyle),
             Spacer(),
             Padding(
               padding: const EdgeInsets.all(20.0),

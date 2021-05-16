@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:myp90x_app/components/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:myp90x_app/model/exercise_brain.dart';
-import 'package:myp90x_app/components/database_helper.dart';
 
 class RepPicker extends StatefulWidget {
 
@@ -24,14 +24,14 @@ class _RepPickerState extends State<RepPicker> {
 
         return Column(
           children: [
-            Text('The repPicker should be set to  ${exerciseModel.nextLastRep}'),
+            Text('Reps',
+            style: kPickerViewPickerTextStyle),
+            SizedBox(height: 15),
             Container(
               child: Expanded(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15.0),
-                  child: Consumer<ExerciseModel>(
-                      builder: (context, exerciseModel, child) {
-                        return CupertinoPicker(
+                  child: CupertinoPicker(
                           looping: true,
                           scrollController: pickerScrollController,
                           magnification: 1.0,
@@ -39,7 +39,7 @@ class _RepPickerState extends State<RepPicker> {
                           // 1.1 is ios default
                           offAxisFraction: 0.0,
                           // -0.5 to 0.5,
-                          squeeze: 1.45,
+                          squeeze: 1.3,
                           // ios default is 1.45
                           // selectionOverlay: Text('$selected'),
                           backgroundColor: Colors.black,
@@ -49,19 +49,17 @@ class _RepPickerState extends State<RepPicker> {
                             exerciseModel.setCurrentRep(selected);
                             });
                           },
-                          itemExtent: 20.0,
+                          itemExtent: 30.0,
                           children: [
                               for (var rep in repToChoose)
                               Text('$rep', style: TextStyle(
                               color: selected == rep ? Colors.white : Colors
-                                  .blue),)
+                                  .redAccent),)
                           ],
-                        );
-                        }
+                        ),
                 ),
               ),
             ),
-                ),
                 ],
         );
       }

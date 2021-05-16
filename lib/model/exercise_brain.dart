@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myp90x_app/components/database_helper.dart';
 
 class ExerciseModel extends ChangeNotifier {
 
