@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myp90x_app/model/workoutData.dart';
 
 class ExerciseModel extends ChangeNotifier {
 
@@ -31,7 +32,13 @@ class ExerciseModel extends ChangeNotifier {
   int _nextLastWeight = 0;
   int get nextLastWeight => _nextLastWeight;
 
+  WorkoutData _currentWorkout = workouts[2];
+  WorkoutData get currentWorkout => _currentWorkout;
 
+    void setCurrentWorkout(workout) {
+      _currentWorkout = workout;
+      notifyListeners();
+    }
     void setExerciseNumber(int) {
       _exerciseNumber = int;
       notifyListeners();
