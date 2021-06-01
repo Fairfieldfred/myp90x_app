@@ -16,34 +16,21 @@ class _DefaultPickerViewState extends State<DefaultPickerView> {
   @override
   Widget build(BuildContext context) {
     final exerciseModel = context.watch<ExerciseModel>();
-    return  Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return  Row(
       children: [
-        Row(
-          children: [
-            Spacer(),
-            Column(
-              children: [
-                SizedBox(
-                  height: 200.0,
-                  width: 100.0,
-                  child: RepPicker(),
-                ),
-              ],
-            ),
-            Spacer(),
-            Column(
-              children: [
-                SizedBox(
-                  height: 200.0,
-                  width: 100.0,
-                  child: WeightPicker(),
-                ),
-              ],
-            ),
-            Spacer(),
-          ],
+        Spacer(),
+        SizedBox(
+          height: 200.0,
+          width: 100.0,
+          child: RepPicker(),
         ),
+        Spacer(),
+        SizedBox(
+          height: 200.0,
+          width: 100.0,
+          child: WeightPicker(),
+        ),
+        Spacer(),
       ],
     );
   }

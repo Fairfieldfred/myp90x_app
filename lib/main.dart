@@ -17,7 +17,7 @@ class MyP90X extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => ExerciseModel(),
       child: MaterialApp(
-        initialRoute:  WelcomeScreen.id,
+        initialRoute:  MasterDetailPage.id,
         routes: {
           WelcomeScreen.id: (context) => WelcomeScreen(),
           DatabaseTestScreen.id: (context) => DatabaseTestScreen(),

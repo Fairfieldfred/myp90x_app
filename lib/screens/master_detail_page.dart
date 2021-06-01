@@ -20,22 +20,27 @@ class _MasterDetailPageState extends State<MasterDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    final exerciseModel = context.watch<ExerciseModel>();
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('My P90X WorkSheet',
+            style: kProgramNameTextStyle),
+        backgroundColor: Colors.black,
+      ),
+
       body: OrientationBuilder(builder: (context, orientation) {
-        final exerciseModel = context.watch<ExerciseModel>();
+
         if (MediaQuery.of(context).size.width > 600) {
           isLargeScreen = true;
         } else {
           isLargeScreen = false;
         }
-
         return Row(children: <Widget>[
           Expanded(
+            flex: 1,
             child: WorkoutListView()
           ),
-          isLargeScreen ? Expanded(child: ExerciseScreen(exerciseModel.currentWorkout)) : Container(),
+          isLargeScreen ? Expanded(flex: 2,child: ExerciseScreen(exerciseModel.currentWorkout)) : Container(),
         ]);
       }),
     );
@@ -55,11 +60,7 @@ class _WorkoutListViewState extends State<WorkoutListView> {
     final exerciseModel = context.watch<ExerciseModel>();
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: Text('My P90X WorkSheet',
-            style: kProgramNameTextStyle),
-        backgroundColor: Colors.black,
-      ),
+
       body:
       ListView(
         children: [
@@ -87,11 +88,17 @@ class _WorkoutListViewState extends State<WorkoutListView> {
                     ],
                   ),
                   onPressed: (){
-
-                    setState(() {
-                      exerciseModel.setCurrentWorkout(workouts[i]);
-                      print(exerciseModel.currentWorkout.workoutName);
-                    });
+                    exerciseModel.setCurrentWorkout(workouts[i]);
+                    exerciseModel.setExerciseNumber(0);
+                    if (MediaQuery.of(context).size.width > 600) {
+                      setState(() {
+                        print(exerciseModel.currentWorkout.workoutName);
+                      });
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ExerciseScreen(workouts[i])));
+                    }
                   }
               ),
             ),

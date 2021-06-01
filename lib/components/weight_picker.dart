@@ -19,11 +19,9 @@ class _WeightPickerState extends State<WeightPicker> {
     final exerciseModel = context.watch<ExerciseModel>();
     FixedExtentScrollController _scrollController = FixedExtentScrollController(initialItem: weightToChoose.indexOf(exerciseModel.nextLastWeight));
 
-
     return Column(
       children: [
-        Text('Weight',
-            style: kPickerViewPickerTextStyle),
+        Text('Weight', style: kPickerViewPickerTextStyle),
         SizedBox(height: 15),
         Container(
           child: Expanded(
@@ -50,7 +48,6 @@ class _WeightPickerState extends State<WeightPicker> {
                     Text('$weight', style: TextStyle(
                         color: selected == weight ? Colors.white: Colors.blueAccent),)
                 ],
-
               ),
             ),
           ),

@@ -7,6 +7,7 @@ import 'package:myp90x_app/components/database_helper.dart';
 import 'package:myp90x_app/model/exercise_brain.dart';
 import 'package:myp90x_app/model/workoutData.dart';
 import 'package:provider/provider.dart';
+import 'package:myp90x_app/components/video_screen.dart';
 
 
 class  ExerciseScreen extends StatefulWidget {
@@ -30,13 +31,14 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   final PageController controller = PageController(initialPage: 0);
 
   pickNextView() {
+    final exerciseModel = context.watch<ExerciseModel>();
     return Card(
         color: Colors.deepPurpleAccent,
         child: PageView(
           physics:new NeverScrollableScrollPhysics(),
           controller: controller,
             children:[
-              for ( var exercisePage in workoutData.exercises)
+              for ( var exercisePage in exerciseModel.currentWorkout.exercises)
               ShowCorrectView(exercisePage),
             ], ),
       );
@@ -49,7 +51,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text(workoutData.workoutName,
+        title: Text(exerciseModel.currentWorkout.workoutName,
         maxLines: 2,
         style: kWorkoutNameTextStyle),
         backgroundColor: Colors.black,
@@ -63,13 +65,13 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
             shadowColor: Colors.blue,
             child: Container(
               width: double.infinity,
-              child: Text(workoutData.exercises[exerciseModel.exerciseNumber],
+              child: Text(exerciseModel.currentWorkout.exercises[exerciseModel.exerciseNumber],
               textAlign: TextAlign.center,
                   style: kWorkoutNameCardTextStyle),
             ),
           ),
           Expanded(
-              flex: 2, child: Container(
+              flex: 2, child: YouTubePlayer(
           )),
           // Below is used for testing
           // Text('The current rep Count is: ${exerciseModel.currentRep.toString()}'),

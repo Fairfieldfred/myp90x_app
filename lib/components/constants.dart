@@ -13,7 +13,7 @@ const kWorkoutNameTextStyle = TextStyle(
   // decoration: TextDecoration.underline,
 );
 const kProgramNameTextStyle = TextStyle(
-  fontSize: 30.0,
+  fontSize: 25.0,
   fontWeight: FontWeight.w900,
   decoration: TextDecoration.underline,
 );

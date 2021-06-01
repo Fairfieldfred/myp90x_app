@@ -32,7 +32,7 @@ class ExerciseModel extends ChangeNotifier {
   int _nextLastWeight = 0;
   int get nextLastWeight => _nextLastWeight;
 
-  WorkoutData _currentWorkout = workouts[2];
+  WorkoutData _currentWorkout = workouts[0];
   WorkoutData get currentWorkout => _currentWorkout;
 
     void setCurrentWorkout(workout) {
