@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:myp90x_app/model/exercise_brain.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:myp90x_app/components/constants.dart';
 import 'package:myp90x_app/components/rep_picker.dart';
 import 'package:myp90x_app/components/weight_picker.dart';
+import 'package:myp90x_app/model/exercise_brain.dart';
 import 'package:provider/provider.dart';
-import 'package:myp90x_app/components/constants.dart';
 
 class DefaultPickerView extends StatefulWidget {
   DefaultPickerView();
@@ -16,7 +15,7 @@ class _DefaultPickerViewState extends State<DefaultPickerView> {
   @override
   Widget build(BuildContext context) {
     final exerciseModel = context.watch<ExerciseModel>();
-    return  Row(
+    return Row(
       children: [
         Spacer(),
         SizedBox(
@@ -46,11 +45,11 @@ class _MaxRepPickerViewState extends State<MaxRepPickerView> {
   @override
   Widget build(BuildContext context) {
     final exerciseModel = context.watch<ExerciseModel>();
-    return  Row(
+    return Row(
       children: [
         Spacer(),
         Text('The last Max \nRep Count: ${exerciseModel.nextLastRep}',
-        style: kPickerViewTextStyle),
+            style: kPickerViewTextStyle),
         Spacer(),
         SizedBox(
           height: 200.0,
@@ -64,26 +63,26 @@ class _MaxRepPickerViewState extends State<MaxRepPickerView> {
 }
 
 class FixedRepPickerView extends StatefulWidget {
-
   @override
   _FixedRepPickerViewState createState() => _FixedRepPickerViewState();
 }
 
 class _FixedRepPickerViewState extends State<FixedRepPickerView> {
-
   @override
   Widget build(BuildContext context) {
     final exerciseModel = context.watch<ExerciseModel>();
-    return  Row(
+    return Row(
       children: [
         Spacer(),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Everybody\nDoes:\n',
-            style: kPickerViewTextStyle,),
+            Text(
+              'Everybody\nDoes:\n',
+              style: kPickerViewTextStyle,
+            ),
             Text(pickCorrectCount(exerciseModel.exerciseName),
-            style: kPickerViewTextStyle),
+                style: kPickerViewTextStyle),
           ],
         ),
         Spacer(),
@@ -111,7 +110,7 @@ class _FixedRepPickerViewState extends State<FixedRepPickerView> {
         return '21';
       case 'Dead Lift Squats' 'Toe Roll Iso Lunges':
         return '20';
-      case  'Step Back Lunges' 'Three-Way Lunges':
+      case 'Step Back Lunges' 'Three-Way Lunges':
         return '15';
       case 'Squat Run':
         return 'Max';
@@ -128,14 +127,13 @@ class DoneOrNotPickerView extends StatefulWidget {
 }
 
 class _DoneOrNotPickerViewState extends State<DoneOrNotPickerView> {
-
- bool _yesHasBeenPressed = false;
- bool _noHasBeenPressed = false;
+  bool _yesHasBeenPressed = false;
+  bool _noHasBeenPressed = false;
 
   @override
   Widget build(BuildContext context) {
     final exerciseModel = context.watch<ExerciseModel>();
-    if (exerciseModel.doneOrNot == true){
+    if (exerciseModel.doneOrNot == true) {
       _yesHasBeenPressed = true;
       _noHasBeenPressed = false;
     } else {
@@ -143,14 +141,12 @@ class _DoneOrNotPickerViewState extends State<DoneOrNotPickerView> {
       _noHasBeenPressed = true;
     }
 
-    return  Column(
+    return Column(
       children: [
-
         Row(
           children: [
             Spacer(),
-            Text('Did You Do it? ',
-            style: kDoneOrNotViewTextStyle),
+            Text('Did You Do it? ', style: kDoneOrNotViewTextStyle),
             Spacer(),
             Padding(
               padding: const EdgeInsets.all(20.0),
@@ -158,8 +154,10 @@ class _DoneOrNotPickerViewState extends State<DoneOrNotPickerView> {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      onPrimary: Colors.greenAccent,
-                      primary: _yesHasBeenPressed ? Colors.greenAccent : Colors.yellowAccent,
+                      foregroundColor: Colors.greenAccent,
+                      backgroundColor: _yesHasBeenPressed
+                          ? Colors.greenAccent
+                          : Colors.yellowAccent,
                       minimumSize: Size(88, 36),
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       shape: const RoundedRectangleBorder(
@@ -168,22 +166,27 @@ class _DoneOrNotPickerViewState extends State<DoneOrNotPickerView> {
                     ),
                     onPressed: () {
                       setState(() {
-                        if (_yesHasBeenPressed == false){
+                        if (_yesHasBeenPressed == false) {
                           _yesHasBeenPressed = true;
                           _noHasBeenPressed = false;
-                        } else _yesHasBeenPressed = true;
+                        } else
+                          _yesHasBeenPressed = true;
                         exerciseModel.setNextDoneOrNot(true);
                       });
                     },
                     child: Text('Yes',
-                    style: TextStyle(
-                      color: _yesHasBeenPressed ? Colors.black : Colors.black26,
-                    )),
+                        style: TextStyle(
+                          color: _yesHasBeenPressed
+                              ? Colors.black
+                              : Colors.black26,
+                        )),
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      onPrimary: Colors.greenAccent,
-                      primary: _noHasBeenPressed ? Colors.greenAccent : Colors.yellowAccent,
+                      foregroundColor: Colors.greenAccent,
+                      backgroundColor: _noHasBeenPressed
+                          ? Colors.greenAccent
+                          : Colors.yellowAccent,
                       minimumSize: Size(88, 36),
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       shape: const RoundedRectangleBorder(
@@ -192,17 +195,21 @@ class _DoneOrNotPickerViewState extends State<DoneOrNotPickerView> {
                     ),
                     onPressed: () {
                       setState(() {
-                        if(_noHasBeenPressed == false) {
+                        if (_noHasBeenPressed == false) {
                           _noHasBeenPressed = true;
                           _yesHasBeenPressed = false;
-                        } else _noHasBeenPressed =true;
+                        } else
+                          _noHasBeenPressed = true;
                         exerciseModel.setNextDoneOrNot(false);
                       });
                     },
-                    child: Text('No',
-                    style:  TextStyle(
-                      color: _noHasBeenPressed ? Colors.black : Colors.black26,
-                    ),),
+                    child: Text(
+                      'No',
+                      style: TextStyle(
+                        color:
+                            _noHasBeenPressed ? Colors.black : Colors.black26,
+                      ),
+                    ),
                   ),
                 ],
               ),
